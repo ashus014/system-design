@@ -1,0 +1,26 @@
+1. how many elevators ?
+Interviewer Ans : Could be n
+
+2. What are the different lift dispatch algorithms
+If a building has 2 lifts :
+
+Approach 1:
+    Lift 1 will serve the even floors
+    Lift 2 will serve the odd floors
+
+Approach 2:
+    Lift 1 will serve from 1 - 5
+    Lift 2 will serve from 6 - 10
+
+Objects :
+1. Building
+2. Floor
+3. External Button
+4. Elevator Car
+    1. Display
+    2. Current Floor
+    3. Direction (UP/DOWN)
+    4. Status
+    5. Internal Button
+    6. Doors
+
