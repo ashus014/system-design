@@ -1,4 +1,4 @@
-package LLD.parkingLot;
+package LLD.parkingLot.code;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

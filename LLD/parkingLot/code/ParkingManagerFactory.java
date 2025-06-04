@@ -1,4 +1,4 @@
-package LLD.parkingLot;
+package LLD.parkingLot.code;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

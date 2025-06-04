@@ -1,4 +1,4 @@
-package LLD.parkingLot;
+package LLD.parkingLot.code;
 
 public enum VehicleType {
     TWO_WHEELER,

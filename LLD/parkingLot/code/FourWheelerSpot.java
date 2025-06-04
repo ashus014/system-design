@@ -1,4 +1,4 @@
-package LLD.parkingLot;
+package LLD.parkingLot.code;
 
 public class FourWheelerSpot extends ParkingSpot {
     private static final double FOUR_WHEELER_RATE = 20.0;

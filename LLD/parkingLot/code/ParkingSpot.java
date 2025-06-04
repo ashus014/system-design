@@ -1,4 +1,4 @@
-package LLD.parkingLot;
+package LLD.parkingLot.code;
 
 public abstract class ParkingSpot {
     private final int id;
