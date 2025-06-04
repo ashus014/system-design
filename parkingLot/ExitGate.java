@@ -25,8 +25,8 @@ public class ExitGate {
         double fee = spot.getHourlyRate() * hours;
 
         System.out.println("Parking duration: " + totalMinutes + " minutes (" + hours + " hours)");
-        System.out.println("Hourly rate: $" + spot.getHourlyRate());
-        System.out.println("Total fee: $" + fee);
+        System.out.println("Hourly rate: ₹" + spot.getHourlyRate());
+        System.out.println("Total fee: ₹" + fee);
 
         return fee;
     }
@@ -41,12 +41,12 @@ public class ExitGate {
 
         double fee = calculateFee(ticket);
         if (amount < fee) {
-            throw new IllegalArgumentException("Insufficient payment. Required: $" + fee + ", Provided: $" + amount);
+            throw new IllegalArgumentException("Insufficient payment. Required: ₹" + fee + ", Provided: ₹" + amount);
         }
 
         // Process payment logic here
         double change = amount - fee;
-        System.out.println("Payment processed successfully. Change: $" + change);
+        System.out.println("Payment processed successfully. Change: ₹" + change);
     }
 
     public void removeVehicle(Ticket ticket) {
