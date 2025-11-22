@@ -8,6 +8,8 @@
 2. URL Shortener [May-31-2025]
 3. WhatsApp Design [June-01-2025]
 4. Rate Limiter [June-14-2025]
+5. Notification System [https://www.youtube.com/watch?v=e8cX9pQdu7Y&t=2686s]
+6. Spotify Design [Nov-22-2025]
 
 # Database Design
 1. Ticket Management System : https://chatgpt.com/share/6843f192-3410-8006-ba83-8391a5c67bb9
