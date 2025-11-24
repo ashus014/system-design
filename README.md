@@ -10,9 +10,11 @@
 4. Rate Limiter [June-14-2025]
 5. Notification System [https://www.youtube.com/watch?v=e8cX9pQdu7Y&t=2686s]
 6. Spotify Design [Nov-22-2025]
+7. Instagram [Nov-23-2025] [Munnu]
+8. Uber [Noc-24-2025] [Munnu]  In progress....
 
 # Database Design
-1. Ticket Management System : https://chatgpt.com/share/6843f192-3410-8006-ba83-8391a5c67bb9
+1. Ticket Management System: https://chatgpt.com/share/6843f192-3410-8006-ba83-8391a5c67bb9
 
 
 
@@ -21,4 +23,4 @@
 
 #########################################################################
 Reference :
-1. Rate Limiter : https://bytebytego.com/courses/system-design-interview/design-a-rate-limiter
+1. Rate Limiter: https://bytebytego.com/courses/system-design-interview/design-a-rate-limiter
