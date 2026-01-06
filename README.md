@@ -2,6 +2,7 @@
 1. Parking Lot [June-03-2025]
 2. Tik-tak-toe [June-04-2025]
 3. Elevator System [June-04-2025]
+4. Splitwise [January-07-2026]
 
 # HLD
 
