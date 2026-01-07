@@ -1,6 +1,7 @@
 package LLD.splitwise;
 
 import LLD.splitwise.expense.ExpenseSplitType;
+import LLD.splitwise.expense.ExpenseController;
 import LLD.splitwise.expense.split.Split;
 import LLD.splitwise.group.Group;
 import LLD.splitwise.group.GroupController;
@@ -14,7 +15,6 @@ public class Splitwise {
 
     UserController userController;
     GroupController groupController;
-
     BalanceSheetController balanceSheetController;
 
     public Splitwise(){
@@ -48,6 +48,12 @@ public class Splitwise {
         splits2.add(splits2_1);
         splits2.add(splits2_2);
         group.createExpense("Exp1002", "Lunch", 500, splits2, ExpenseSplitType.UNEQUAL, userController.getUser("U2001"));
+
+        // Step3: Direct (non-group) expense: U2001 paid for U1001 (U1001 owes U2001)
+        List<Split> directSplits = new ArrayList<>();
+        directSplits.add(new Split(userController.getUser("U1001"), 50));
+        ExpenseController expenseController = new ExpenseController();
+        expenseController.createExpense("Exp2001", "Taxi (personal)", 50, directSplits, ExpenseSplitType.UNEQUAL, userController.getUser("U2001"));
 
         for(User user : userController.getAllUsers()) {
             balanceSheetController.showBalanceSheetOfUser(user);

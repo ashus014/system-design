@@ -27,8 +27,6 @@ Split (Abstract Class):
 - user : User
 - amount : Double
 
-User:
-
 Expense:
 - id : String
 - description : String
@@ -76,7 +74,8 @@ UserExpenseBalanceSheet:
 - totalGetBack : Double
 
 BalanceSheetController:
-
+- updateUserExpenseBalanceSheet
+- showBalanceSheetOfUser
 
 Balance:
 - amountOwe : Double
