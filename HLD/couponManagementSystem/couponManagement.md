@@ -286,3 +286,43 @@ If interviewer pushes further, they may ask
 - How do you optimize search?
 - Do you use DB lock or application lock?
 ~~~
+
+Object Modeling:
+----------------
+
+Coupons
+~~~
+- couponId : String
+- category : String
+- description : String
+- dateCreated : Date
+- type : Enum (PERCENTAGE, FLAT)
+- status : Enum (ACTIVE, LOCKED, REDEEMED, EXPIRED)
+- createdTimeStamp : DateTime
+- lockedTimeStamp : DateTime
+- userId : String
+~~~
+
+Redeem
+~~~
+- redeemId : String
+- couponId : String
+- userId : String
+- orderId : String
+- redeemTimeStamp : DateTime
+~~~
+
+Users
+~~~
+- userId : String
+- firstName : String
+- lastName : String
+- email : String
+- phoneNumber : String
+~~~
+
+Deep Dive
+---------
+~~~
+
+~~~
