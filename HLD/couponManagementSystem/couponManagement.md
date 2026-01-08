@@ -335,6 +335,10 @@ Coupon lock has these properties:
 - must avoid race conditions
 Redis gives you all of this out of the box.
 
+👉 When your service writes to DB, it also updates ES.
+Once we have saved to the database and the transaction commits, 
+we asynchronously notify the indexer service, and the indexer service updates Elasticsearch.
+
 Basic Redis lock idea (simple)
 When user selects a coupon:
 
