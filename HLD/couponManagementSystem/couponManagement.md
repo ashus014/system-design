@@ -323,6 +323,190 @@ Users
 
 Deep Dive
 ---------
+Use of Redis to Handle Lock Mechanism
+=====================================
+~~~
+Why Redis is a good fit for coupon locking
+Coupon lock has these properties:
+- temporary (5 minutes)
+- must auto-expire
+- high contention (many users)
+- must be fast
+- must avoid race conditions
+Redis gives you all of this out of the box.
+
+Basic Redis lock idea (simple)
+When user selects a coupon:
+
+======================================
+SET coupon:lock:C123 USER123 NX EX 300
+======================================
+
+What this means:
+- NX → set only if key does NOT exist
+- EX 300 → auto-expire after 5 minutes
+
+If Redis returns OK:
+👉 lock acquired
+
+If Redis returns null:
+👉 someone else already locked it
+
+No cron job needed for expiry
+
+How full flow looks with Redis
+1️⃣ User locks coupon
+Coupon Redeem Service:
+- tries Redis lock
+- if success → proceed
+- if fail → reject
+
+Redis:
+coupon:lock:C123 = USER123 (TTL 300s)
+
+DB:
+status = LOCKED (optional, for visibility)
+
+2️⃣ User redeems coupon
+
+Redeem API:
+1. Check Redis lock exists
+2. Check USER123 matches
+3. Apply discount
+4. Save Redeem record
+5. Mark coupon REDEEMED
+6. Delete Redis lock
+
+Redis:
+DEL coupon:lock:C123
+
+3️⃣ User abandons checkout
+
+Redis TTL expires automatically after 5 minutes.
+Lock is gone.
+Coupon becomes available again.
+No scheduler. No cleanup job. Clean.
+~~~
+Use of Elastic Search to Search Coupons
+=======================================
+~~~
+At small scale, DB search is fine.
+But when the system grows:
+- millions of coupons
+- very high read traffic
+- free-text search (“10% laptop discount”)
+- filters + sorting
+
+DB problems:
+- full table scans
+- heavy indexes
+- high latency
+- expensive read replicas
+
+So we introduce Elasticsearch (ES).
+
+Important rule:
+👉 Database is the source of truth
+👉 Elasticsearch is only for search
+
+===========================================================
+Elasticsearch stores data as JSON documents inside indexes, 
+not rows in tables.
+
+If DB = Excel sheet
+Then ES = Google search index
+===========================================================
+
+1️⃣ Index (like a table, but not really)
+In Elasticsearch, data lives inside an index.
+For coupons, you might have: coupons_index
+
+Think of an index as:
+- a collection of similar documents
+- optimized for searching, not transactions
+
+2️⃣ Document (like a row)
+Each coupon is stored as a document (JSON).
+Example document:
+{
+  "couponId": "C123",
+  "category": "electronics",
+  "description": "10% off on laptops",
+  "type": "PERCENTAGE",
+  "status": "ACTIVE",
+  "expiryDate": "2026-02-10"
+}
+
+Each document:
+- is independent
+- has its own ID (often couponId)
+- is immutable (updates = re-index)
+
+3️⃣ Fields (like columns, but smarter)
+Each key in the document is a field.
+But here’s the key difference from DB:
+👉 Fields are indexed for search
+
+For example:
+- description is broken into words
+- category is indexed for filtering
+- expiryDate is indexed for range queries
+
+4️⃣ Inverted Index (the magic part)
+This is the core of Elasticsearch.
+Instead of storing like this (DB style):
+====================
+Coupon → description
+====================
+
+Elasticsearch stores:
+========================
+word → list of documents
+========================
+"laptop" → [C123, C456, C789]
+"discount" → [C123, C999]
+========================
+
+So when user searches: 10% laptop discount
+
+Elasticsearch:
+- looks up each word
+- finds matching documents
+- ranks them
+- returns results fast
+That’s why search is so fast
+
+5️⃣ Shards (how it scales)
+At large scale, an index is split into shards.
+================
+coupons_index
+ ├─ shard 1
+ ├─ shard 2
+ ├─ shard 3
+================
+Each shard:
+- holds part of the data
+- can live on different machines
+- is searched in parallel
+This is how ES handles millions of coupons.
+
+6️⃣ Replicas (for reliability)
+Each shard can have replicas.
+Purpose:
+fault tolerance
+more read capacity
+So if one node dies:
+👉 search still works
+
+7️⃣ What Elasticsearch is NOT good at
+Important to say in interviews:
+❌ transactions
+❌ joins
+❌ strict consistency
+❌ frequent updates
+
+That’s why:
+- DB is source of truth
+- ES is search-only
 ~~~
 
-~~~
